@@ -11,8 +11,8 @@ struct Node {
 
 void output(Node*);
 // my function prototypes
-void push_front(Node*, float); // add a node to the front
-void push_back(Node*, float); // add a node to the tail
+void push_front(Node*&, float); // add a node to the front
+void push_back(Node*&, float); // add a node to the tail
 void deleteNode(Node*&); // delete a node, user inputs index
 void insertNode(Node*&); // insert a node, user inputs index
 void deleteList(Node*&); // delete the entire linked list
@@ -41,10 +41,11 @@ int main() {
     output(head);
 
     // I added this to demo push_back
-    cout << "Enter a value to add to the tail: ";
+    cout << "Enter a value to append to the tail: ";
     float valIn;
     cin >> valIn;
     push_back(head, valIn);
+    output(head);
 
     // deleting a node
     deleteNode(head);
@@ -87,12 +88,24 @@ void push_front(Node* &hd, float val) { // add a node to the front
     // step 3 make head point to the new node
 }
 
-void push_back(Node* hd, float val) { // add a node to the tail
-// doesn't need pass-by-reference because this won't change the head pointer
-    // step 1 traverse the list to get to the last node
+void push_back(Node* &hd, float val) { // add a node to the tail
+// pass-by-reference because the last node's next needs to change
+    // step 1 make a new node
+    Node* newnode = new Node;
+    newnode->value = val;
+    newnode->next = nullptr;
 
-    // step 2 make a new node and make the tail point to it instead of nullptr
-
+    // step 2 traverse the list to get to the last node
+    if(!hd)
+        hd = newnode; // if list is empty, this new node is the head
+    else {
+        Node *current = hd;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        // make the tail point to the new node instead of nullptr
+        current->next = newnode;
+    }
 }
 
 void deleteNode(Node* &hd) { // delete a node
@@ -107,7 +120,7 @@ void deleteNode(Node* &hd) { // delete a node
     Node *current = hd;
     Node *prev = nullptr;  // start prev as nullptr to detect head deletion
 
-    for (int i = 0; i < (entry - 1); i++) {
+    for (int i = 0; i < (entry - 1) && current->next != nullptr; i++) {
         prev = current;
         current = current->next;
     }
@@ -141,10 +154,10 @@ void insertNode(Node* &hd) { // insert a node
     current = hd;
     Node* prev = nullptr;  // reset prev to nullptr for same reason
 
-    for (int i = 0; i < entry; i++) {
+    for (int i = 0; i < entry && current != nullptr; i++) {
         prev = current;
         current = current->next;
-    }
+    } // if they entered a number too high, it inserts at the last node
 
     // at this point, insert a node between prev and current
     Node *newnode = new Node;
