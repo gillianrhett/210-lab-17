@@ -26,7 +26,8 @@ int main() {
         int tmp_val = rand() % 100;
         Node *newVal = new Node;
         
-        // adds node at head // TODO replace this with push_front
+        // adds node at head
+        /*
         if (!head) {
             head = newVal;
             newVal->next = nullptr;
@@ -37,6 +38,8 @@ int main() {
             newVal->value = tmp_val;
             head = newVal;
         }
+        */
+        push_front(head, tmp_val);
     }
     output(head);
 
@@ -82,10 +85,15 @@ void output(Node *hd) {
 void push_front(Node* &hd, float val) { // add a node to the front
 // pass-by-reference because head needs to point to the new node
     // step 1 make the new node
+    Node* newnode = new Node;
+    newnode->value = val;
+    if (hd)
+        newnode->next = hd;
+    else // if the list is empty
+        newnode->next = nullptr;
 
-    // step 2 make the new node point to what was item 0
-    
-    // step 3 make head point to the new node
+    // step 2 make head point to the new node
+    hd = newnode;
 }
 
 void push_back(Node* &hd, float val) { // add a node to the tail
