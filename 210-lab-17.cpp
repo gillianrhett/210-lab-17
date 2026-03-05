@@ -112,9 +112,13 @@ void deleteNode(Node* &hd) { // delete a node
 // pass-by-reference in case head node is deleted so pointer needs to change
     cout << "Which node to delete? " << endl;
     output(hd);
-    int entry;
     cout << "Choice --> ";
-    cin >> entry;
+    int entry = -1;
+    while (entry < 0) {
+        cin >> entry;
+        if (entry < 0)
+            cout << "enter at least 0: ";
+    }
 
     // traverse that many times and delete that node
     Node *current = hd;
@@ -142,14 +146,18 @@ void insertNode(Node* &hd) { // insert a node
 // pass-by-reference so head pointer can be changed if the item is inserted at index 0
     cout << "After which node to insert 10000? " << endl;
     int count = 1;
-    int entry;
     Node* current = hd;
     while (current) {
         cout << "[" << count++ << "] " << current->value << endl;
         current = current->next;
     }
     cout << "Choice --> ";
-    cin >> entry;
+    int entry = -1;
+    while (entry < 0) {
+        cin >> entry;
+        if (entry < 0)
+            cout << "enter at least 0: ";
+    }
 
     current = hd;
     Node* prev = nullptr;  // reset prev to nullptr for same reason
