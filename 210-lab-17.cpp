@@ -1,3 +1,4 @@
+// COMSC-210 | Lab 17 | Gillian Rhett
 #include <iostream>
 using namespace std;
 
@@ -8,7 +9,13 @@ struct Node {
     Node *next;
 };
 
-void output(Node *);
+void output(Node*);
+// my function prototypes
+void push_front(Node*, float); // add a node to the front
+void push_back(Node*, float); // add a node to the tail
+void deleteNode(Node*, int); // delete a node
+void insertAt(Node*, int); // insert a node
+void deleteList(Node*); // deleting the entire linked list
 
 int main() {
     Node *head = nullptr;
@@ -119,4 +126,24 @@ void output(Node *hd) {
         current = current->next;
     }
     cout << endl;
+}
+
+void push_front(Node* hd, float val) { // adding a node to the front
+
+}
+
+void push_back(Node* hd, float val) { // adding a node to the tail
+
+}
+
+void deleteNode(Node* hd, int index) { // deleting a node
+
+}
+
+void insertAt(Node* hd, float val, int index) { // insert a node
+
+}
+
+void deleteList(Node* hd) { // delete the entire linked list
+    
 }
