@@ -13,8 +13,8 @@ void output(Node*);
 // my function prototypes
 void push_front(Node*, float); // add a node to the front
 void push_back(Node*, float); // add a node to the tail
-void deleteNode(Node*); // delete a node
-void insertAt(Node*); // insert a node
+void deleteNode(Node*&); // delete a node, user inputs index
+void insertNode(Node*&); // insert a node, user inputs index
 void deleteList(Node*&); // delete the entire linked list
 
 int main() {
@@ -26,7 +26,7 @@ int main() {
         int tmp_val = rand() % 100;
         Node *newVal = new Node;
         
-        // adds node at head
+        // adds node at head // TODO replace this with push_front
         if (!head) {
             head = newVal;
             newVal->next = nullptr;
@@ -40,36 +40,19 @@ int main() {
     }
     output(head);
 
+    // I added this to demo push_back
+    cout << "Enter a value to add to the tail: ";
+    float valIn;
+    cin >> valIn;
+    push_back(head, valIn);
+
     // deleting a node
-    cout << "Which node to delete? " << endl;
-    output(head);
-    int entry;
-    cout << "Choice --> ";
-    cin >> entry;
+    deleteNode(head);
 
-    // traverse that many times and delete that node
-    Node *current = head;
-    Node *prev = nullptr;  // start prev as nullptr to detect head deletion
-
-    for (int i = 0; i < (entry - 1); i++) {
-        prev = current;
-        current = current->next;
-    }
-
-    // at this point, delete current and reroute pointers
-    if (current) {
-        if (prev == nullptr) {
-            // deleting the head node
-            head = current->next;
-        } else {
-            prev->next = current->next;
-        }
-        delete current;
-        current = nullptr;
-    }
     output(head);
 
     // insert a node
+    insertNode(head);
     
     output(head);
 
@@ -95,20 +78,55 @@ void output(Node *hd) {
     cout << endl;
 }
 
-void push_front(Node* hd, float val) { // add a node to the front
+void push_front(Node* &hd, float val) { // add a node to the front
+// pass-by-reference because head needs to point to the new node
+    // step 1 make the new node
 
+    // step 2 make the new node point to what was item 0
+    
+    // step 3 make head point to the new node
 }
 
 void push_back(Node* hd, float val) { // add a node to the tail
+// doesn't need pass-by-reference because this won't change the head pointer
+    // step 1 traverse the list to get to the last node
+
+    // step 2 make a new node and make the tail point to it instead of nullptr
 
 }
 
-void deleteNode(Node* hd, int index) { // delete a node
+void deleteNode(Node* &hd) { // delete a node
+// pass-by-reference in case head node is deleted so pointer needs to change
+    cout << "Which node to delete? " << endl;
+    output(hd);
+    int entry;
+    cout << "Choice --> ";
+    cin >> entry;
 
+    // traverse that many times and delete that node
+    Node *current = hd;
+    Node *prev = nullptr;  // start prev as nullptr to detect head deletion
+
+    for (int i = 0; i < (entry - 1); i++) {
+        prev = current;
+        current = current->next;
+    }
+
+    // at this point, delete current and reroute pointers
+    if (current) {
+        if (prev == nullptr) {
+            // deleting the head node
+            hd = current->next;
+        } else {
+            prev->next = current->next;
+        }
+        delete current;
+        current = nullptr;
+    }
 }
 
-void insertAt(Node* &hd) { // insert a node
-// head pointer passed by reference so it can be changed if the item is inserted at index 0
+void insertNode(Node* &hd) { // insert a node
+// pass-by-reference so head pointer can be changed if the item is inserted at index 0
     cout << "After which node to insert 10000? " << endl;
     int count = 1;
     int entry;
@@ -142,7 +160,7 @@ void insertAt(Node* &hd) { // insert a node
 }
 
 void deleteList(Node* &hd) { // delete the entire linked list
-// the head pointer is passed by reference so it can be changed to nullptr
+// pass-by-reference so head can be changed to nullptr
     Node* current = hd;
     while (current) {
         hd = current->next;
