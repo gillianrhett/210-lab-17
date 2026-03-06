@@ -19,26 +19,13 @@ void deleteList(Node*&); // delete the entire linked list
 
 int main() {
     Node *head = nullptr;
-    int count = 0;
 
     // create a linked list of size SIZE with random numbers 0-99
     for (int i = 0; i < SIZE; i++) {
         int tmp_val = rand() % 100;
         Node *newVal = new Node;
         
-        // adds node at head
-        /*
-        if (!head) {
-            head = newVal;
-            newVal->next = nullptr;
-            newVal->value = tmp_val;
-        }
-        else {
-            newVal->next = head;
-            newVal->value = tmp_val;
-            head = newVal;
-        }
-        */
+        // adding node at head
         push_front(head, tmp_val);
     }
     output(head);
@@ -55,7 +42,7 @@ int main() {
 
     output(head);
 
-    // insert a node
+    // inserting a node
     insertNode(head);
     
     output(head);
@@ -121,24 +108,26 @@ void deleteNode(Node* &hd) { // delete a node
     cout << "Which node to delete? " << endl;
     output(hd);
     cout << "Choice --> ";
-    int entry = -1;
-    while (entry < 0) {
+    // validate input for min value (max is taken care of in the for loop)
+    int entry = 0;
+    while (entry <= 0) {
         cin >> entry;
-        if (entry < 0)
-            cout << "enter at least 0: ";
+        if (entry <= 0)
+            cout << "enter at least 1: ";
     }
 
     // traverse that many times and delete that node
     Node *current = hd;
     Node *prev = nullptr;  // start prev as nullptr to detect head deletion
-
-    for (int i = 0; i < (entry - 1) && current->next != nullptr; i++) {
+    int i;
+    for (i = 0; i < (entry - 1) && current->next != nullptr; ++i) {
         prev = current;
         current = current->next;
     }
+    // if they entered a number too high, it shows an error message and doesn't delete anything
 
-    // at this point, delete current and reroute pointers
-    if (current) {
+    if (entry - 1 == i && current) {
+    // if entry is a valid index number for this list, delete the current node
         if (prev == nullptr) {
             // deleting the head node
             hd = current->next;
@@ -148,6 +137,8 @@ void deleteNode(Node* &hd) { // delete a node
         delete current;
         current = nullptr;
     }
+    else
+        cout << "Error: the last node is number " << i + 1 << endl;
 }
 
 void insertNode(Node* &hd) { // insert a node
@@ -160,6 +151,7 @@ void insertNode(Node* &hd) { // insert a node
         current = current->next;
     }
     cout << "Choice --> ";
+    // validate input for min value (max is taken care of in the for loop)
     int entry = -1;
     while (entry < 0) {
         cin >> entry;
